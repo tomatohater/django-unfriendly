@@ -70,9 +70,8 @@ If SEO is still important to you, you can pass some SEO juice to the filter::
 
 Credits
 ********
-`Drew Engelson`_
-
-`Inspired by django-urlcrypt`_
+* `Drew Engelson`_
+* Inspired by `django-urlcrypt`_
 
 .. _`Drew Engelson`: http://github.com/tomatohater
-.. _`Inspired by django-urlcrypt`: http://github.com/dziegler/django-urlcrypt
+.. _`django-urlcrypt`: http://github.com/dziegler/django-urlcrypt
