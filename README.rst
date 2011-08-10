@@ -1,13 +1,13 @@
 django-unfriendly
 ========================
 
-django-unfriendly is a Django app that obfuscates URLs and allows your application to handle with your native Django views.
+django-unfriendly is a Django app that obfuscates URLs and allows your application to natively execute the original URL's view.
 
 There is lots of talk about SEO friendly URLs. The trend is towards more and more readable human information in your URLs and Django makes it easy to create URLs like::
 
     http://yoursite.com/music/black-sabbath-is-awesome/
 
-But sometimes these URLs can give too much away. This is where django-unfriendly comes in.
+But sometimes URLs can give too much away. This is where django-unfriendly comes in.
 
 django-unfriendly provides a template filter that obfuscates URLs in your templates, and a URL handler that deobfuscates and executes the original view (no redirection).
 
@@ -15,15 +15,17 @@ django-unfriendly provides a template filter that obfuscates URLs in your templa
 Why?
 ****
 
-Perhaps you have a Django application with URLs like the one above. And you don't want anyone tampering with your URLs by guessing other possibilities like this::
+Perhaps you have a Django application with URLs like the one above and you don't want anyone tampering with your URLs or guessing other possibilities::
 
     http://yoursite.com/music/melvins-are-awesome/
 
-You can obfuscation the URL which might look like this::
+You can obfuscation the URL which might look like::
 
     http://yoursite.com/u/E5v4uxuNSA8I2is33c6V8lqFTcdv_IxPLDGG/
 
 Tampering with the obfuscated URL should return a ``404 - Page not found`` error.
+
+Obfuscated URLs are idempotent and may be safely cached.
 
 
 Installation
