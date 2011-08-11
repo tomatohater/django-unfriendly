@@ -1,7 +1,6 @@
 import base64
 
 from django.utils.hashcompat import sha_constructor
-from django.conf import settings
 
 
 class Obfuscator(object):

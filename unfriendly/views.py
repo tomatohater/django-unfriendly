@@ -1,7 +1,7 @@
 from urlparse import urlparse
 
 from django.core.urlresolvers import resolve, Resolver404
-from django.http import HttpResponse, HttpResponseNotFound, QueryDict
+from django.http import HttpResponseNotFound, QueryDict
 
 from unfriendly import settings
 from unfriendly.utils import Obfuscator
@@ -14,11 +14,7 @@ def deobfuscate(request, key, juice=None):
     """
     obfuscator = Obfuscator(settings.UNFRIENDLY_SECRET)
 
-    try:
-        url = obfuscator.deobfuscate(str(key))
-    except:
-        return HttpResponseNotFound()
-
+    url = obfuscator.deobfuscate(str(key))
     url_parts = urlparse(url)
     path = url_parts.path
     query = url_parts.query
