@@ -13,21 +13,20 @@ register = template.Library()
 def obfuscate(value, juice=None):
     """
     Template filter that obfuscates whatever text it is applied to. The text is
-    supposed to be a URL, but it will obfuscate any text.
+    supposed to be a URL, but it will obfuscate anything.
 
     Usage:
         Extremely unfriendly URL:
-        {{ "/my-site-path/"|obfuscate }}
+        {{ "/my-secret-path/"|obfuscate }}
 
         Include some SEO juice:
-        {{ "/my-site-path/"|obfuscate:"some SEO friendly text" }}
+        {{ "/my-secret-path/"|obfuscate:"some SEO friendly text" }}
     """
     obfuscator = Obfuscator(settings.UNFRIENDLY_SECRET)
 
     kwargs = {
         'key': obfuscator.obfuscate(*[value]),
     }
-
     if juice:
         kwargs['juice'] = slugify(juice)
 
