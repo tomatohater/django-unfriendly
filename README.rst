@@ -31,9 +31,19 @@ Obfuscated urls are idempotent and may be safely cached.
 Installation
 ************
 
-1. ``easy_install django-unfriendly`` or ``pip install django-unfriendly``
+1. Install the ``django-unfriendly``::
 
-2. Add ``unfriendly`` to your ``INSTALLED_APPS``::
+    easy_install django-unfriendly
+    # or
+    pip install django-unfriendly
+
+2. Make sure you have any ``pycrypto`` installed::
+
+    easy_install pycrypto
+    # or
+    pip install pycrypto
+
+3. Add ``unfriendly`` to your ``INSTALLED_APPS``::
 
     INSTALLED_APPS = (
         ...
@@ -41,13 +51,15 @@ Installation
         ...
     )
 
-3. Add ``unfriendly.urls`` to your ``urls.py``::
+4. Add ``unfriendly.urls`` to your ``urls.py``::
 
     urlpatterns = patterns('',
         ...
         url(r'^u/', include('unfriendly.urls')),
         ...
     )
+
+
 
 
 Usage
