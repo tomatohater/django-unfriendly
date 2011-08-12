@@ -106,7 +106,7 @@ Credits
 ********
 * `Drew Engelson`_
 * Inspiration from `django-urlcrypt`_
-* Python encryption with crc from `Alon Swartz'_
+* Python encryption with crc from `Alon Swartz`_
 
 .. _`Drew Engelson`: http://github.com/tomatohater
 .. _`django-urlcrypt`: http://github.com/dziegler/django-urlcrypt
