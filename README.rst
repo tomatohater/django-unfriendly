@@ -70,18 +70,20 @@ If SEO is still important to you, you can pass some SEO juice to the filter::
     <a href="{{ melvins_url|obfuscate:"King Buzzo rocks" }}">Melvins awesome</a>
 
 
-
 Setting
 ******
 
 The following may be added to your setting.py to customize the behavior of this app.
 
-`UNFRIENDLY_SECRET` (string; default=settings.SECRET_KEY)
-Used for encryption/decryption. Note: AES keys must be either 16, 24, or 32 bytes long
+ - ``UNFRIENDLY_SECRET``
 
-`UNFRIENDLY_ENFORCE_CHECKSUM` (boolean; default=True)
-Determines whether or not the decrypted data is validatedagainst a crc checksum to detect tampering.
+   - default: ``SECRET_KEY``
+   - Used for encryption/decryption. Note: AES keys must be either 16, 24, or 32 bytes long.
 
+ - ``UNFRIENDLY_ENFORCE_CHECKSUM``
+
+   - default: ``True``
+   - Determines whether or not the decrypted data is validatedagainst a crc checksum to detect tampering.
 
 
 Credits
