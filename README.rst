@@ -74,8 +74,6 @@ Credits
 ********
 * `Drew Engelson`_
 * Inspiration from `django-urlcrypt`_
-* `Alon Swartz`_ for encryption logic
 
 .. _`Drew Engelson`: http://github.com/tomatohater
 .. _`django-urlcrypt`: http://github.com/dziegler/django-urlcrypt
-.. _`Alon Schwartz`: http://www.turnkeylinux.org/blog/python-symmetric-encryption
