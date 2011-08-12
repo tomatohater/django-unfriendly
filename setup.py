@@ -10,7 +10,7 @@ README = read('README.rst')
 setup(
     name = "django-unfriendly",
     version = unfriendly.__version__,
-    description = 'The unfriendliest urls in town.',
+    description = 'The unfriendliest urls in town! Django app that obfuscates urls and allows your application to natively execute the original view.',
     long_description = README,
     url = 'http://github.com/tomatohater/django-unfriendly',
     author = 'Drew Engelson',

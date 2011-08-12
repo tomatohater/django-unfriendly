@@ -15,9 +15,9 @@ class UnfriendlyTests(TestCase):
     def setUp(self):
         self.juice = 'Lorem ipsum dolor sit amet'
 
-    def test_obfuscator(self):
+    def test_encryption(self):
         """
-        Test the Obfuscator.
+        Test the encryption.
         """
         original = self.juice
 

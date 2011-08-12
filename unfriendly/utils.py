@@ -3,14 +3,17 @@ import zlib
 import struct
 from Crypto.Cipher import AES
 
+
 class CheckSumError(Exception):
     pass
+
 
 def _lazysecret(secret, blocksize=32, padding='}'):
     """Pads secret if not legal AES block size (16, 24, 32)"""
     if not len(secret) in (16, 24, 32):
         return secret + (blocksize - len(secret)) * padding
     return secret
+
 
 def encrypt(plaintext, secret, checksum=True, lazy=True):
     """Encrypts plaintext with secret
@@ -29,6 +32,7 @@ def encrypt(plaintext, secret, checksum=True, lazy=True):
             struct.pack("i", zlib.crc32(plaintext)))
 
     return base64.urlsafe_b64encode(encobj.encrypt(plaintext)).replace('=', '')
+
 
 def decrypt(ciphertext, secret, checksum=True, lazy=True):
     """Decrypts ciphertext with secret

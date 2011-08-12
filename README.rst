@@ -1,31 +1,31 @@
 django-unfriendly
 ========================
 
-django-unfriendly is a Django app that obfuscates URLs and allows your application to natively execute the original URL's view.
+django-unfriendly is a Django app that obfuscates urls and allows your application to natively execute the original url's view.
 
-There is lots of talk about SEO friendly URLs. The trend is towards more and more readable human information in your URLs and Django makes it easy to create URLs like::
+There is lots of talk about SEO friendly urls. The trend is towards more and more readable human information in your urls and Django makes it easy to create urls like::
 
     http://yoursite.com/music/black-sabbath-is-awesome/
 
-But sometimes URLs can give too much away. This is where django-unfriendly comes in.
+But sometimes urls can give too much away. This is where django-unfriendly comes in.
 
-django-unfriendly provides a template filter that obfuscates URLs in your templates, and a URL handler that deobfuscates and executes the original view (no redirection).
+django-unfriendly provides a template filter that obfuscates urls in your templates, and a url handler that deobfuscates and executes the original view (no redirection).
 
 
 Why?
 ****
 
-Perhaps you have a Django application with URLs like the one above and you don't want anyone tampering with your URLs or guessing other possibilities::
+Perhaps you have a Django application with urls like the one above and you don't want anyone tampering with your urls or guessing other possibilities::
 
     http://yoursite.com/music/melvins-are-awesome/
 
-You can obfuscation the URL which might look like::
+You can obfuscation the url which might look like::
 
     http://yoursite.com/u/E5v4uxuNSA8I2is33c6V8lqFTcdv_IxPLDGG/
 
-Tampering with the obfuscated URL should return a ``404 - Page not found`` error.
+Tampering with the obfuscated url should return a ``404 - Page not found`` error.
 
-Obfuscated URLs are idempotent and may be safely cached.
+Obfuscated urls are idempotent and may be safely cached.
 
 
 Installation
@@ -56,7 +56,7 @@ Load this tag library into any templates where you want to use django-unfriendly
 
     {% load unfriendly_tags %}
 
-Then apply the obfuscate filter to any URL you'd like to hide::
+Then apply the obfuscate filter to any url you'd like to hide::
 
     <a href="{{ "/music/black-sabbath-is-awesome/"|obfuscate }}">Sabbath awesome</a>
 
