@@ -10,6 +10,7 @@ UNFRIENDLY_SECRET = getattr(settings, 'UNFRIENDLY_SECRET',
 
 #
 # UNFRIENDLY_ENFORCE_CHECKSUM whether or not the decrypted data is validated
-# against a checksum to detect tampering
+# against a crc checksum to detect tampering
 #
-UNFRIENDLY_ENFORCE_CHECKSUM = True
+UNFRIENDLY_ENFORCE_CHECKSUM = getattr(settings,
+                                      'UNFRIENDLY_ENFORCE_CHECKSUM', True)

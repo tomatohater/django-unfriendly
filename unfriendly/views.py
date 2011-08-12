@@ -13,7 +13,9 @@ def deobfuscate(request, key, juice=None):
     SEO juice is mostly ignored as it is intended for display purposes only.
     """
     try:
-        url = decrypt(str(key), settings.UNFRIENDLY_SECRET)
+        url = decrypt(str(key),
+                      settings.UNFRIENDLY_SECRET,
+                      checksum=settings.UNFRIENDLY_ENFORCE_CHECKSUM)
     except CheckSumError:
         return HttpResponseNotFound()
 

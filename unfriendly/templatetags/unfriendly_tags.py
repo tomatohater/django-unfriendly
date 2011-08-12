@@ -23,7 +23,9 @@ def obfuscate(value, juice=None):
         {{ "/my-secret-path/"|obfuscate:"some SEO friendly text" }}
     """
     kwargs = {
-        'key': encrypt(value, settings.UNFRIENDLY_SECRET),
+        'key': encrypt(value,
+                       settings.UNFRIENDLY_SECRET,
+                       checksum=settings.UNFRIENDLY_ENFORCE_CHECKSUM),
     }
     if juice:
         kwargs['juice'] = slugify(juice)
