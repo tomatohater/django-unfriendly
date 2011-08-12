@@ -19,7 +19,7 @@ Perhaps you have a Django application with urls like the one above and you don't
 
     http://yoursite.com/music/melvins-are-awesome/
 
-You can obfuscation the url which might look like::
+You can obfuscate the url which might look like::
 
     http://yoursite.com/u/E5v4uxuNSA8I2is33c6V8lqFTcdv_IxPLDGG/
 
