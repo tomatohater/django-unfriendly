@@ -1,3 +1,4 @@
+from urllib import unquote
 from urlparse import urlparse
 
 from django.core.urlresolvers import resolve, Resolver404
@@ -19,7 +20,7 @@ def deobfuscate(request, key, juice=None):
     except CheckSumError:
         return HttpResponseNotFound()
 
-    url_parts = urlparse(url)
+    url_parts = urlparse(unquote(url))
     path = url_parts.path
     query = url_parts.query
 
