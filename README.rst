@@ -99,7 +99,7 @@ The following may be added to your setting.py to customize the behavior of this 
  - ``UNFRIENDLY_ENFORCE_CHECKSUM``
 
    - default: ``True``
-   - Determines whether or not the decrypted data is validatedagainst a crc checksum to detect tampering.
+   - Determines whether or not the decrypted data is validated against a crc checksum to detect tampering.
 
 
 Credits
