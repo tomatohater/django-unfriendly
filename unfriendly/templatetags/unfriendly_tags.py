@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
 from unfriendly import settings
-from unfriendly.utils import Obfuscator
+from unfriendly.utils import encrypt
 
 
 register = template.Library()
@@ -22,10 +22,8 @@ def obfuscate(value, juice=None):
         Include some SEO juice:
         {{ "/my-secret-path/"|obfuscate:"some SEO friendly text" }}
     """
-    obfuscator = Obfuscator(settings.UNFRIENDLY_SECRET)
-
     kwargs = {
-        'key': obfuscator.obfuscate(*[value]),
+        'key': encrypt(value, settings.UNFRIENDLY_SECRET),
     }
     if juice:
         kwargs['juice'] = slugify(juice)

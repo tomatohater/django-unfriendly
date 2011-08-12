@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
 from unfriendly import settings
-from unfriendly.utils import Obfuscator
+from unfriendly.utils import encrypt, decrypt
 from unfriendly.templatetags.unfriendly_tags import obfuscate
 
 
@@ -13,7 +13,6 @@ class UnfriendlyTests(TestCase):
     urls = 'unfriendly.tests.urls'
 
     def setUp(self):
-        self.obfuscator = Obfuscator(settings.UNFRIENDLY_SECRET)
         self.juice = 'Lorem ipsum dolor sit amet'
 
     def test_obfuscator(self):
@@ -22,10 +21,10 @@ class UnfriendlyTests(TestCase):
         """
         original = self.juice
 
-        obfuscated = self.obfuscator.obfuscate(original)
+        obfuscated = encrypt(original, settings.UNFRIENDLY_SECRET)
         self.assertNotEqual(original, obfuscated)
 
-        deobfuscated = self.obfuscator.deobfuscate(obfuscated)
+        deobfuscated = decrypt(obfuscated, settings.UNFRIENDLY_SECRET)
         self.assertEqual(original, deobfuscated)
 
     def test_obfuscate_filter(self):
@@ -35,7 +34,7 @@ class UnfriendlyTests(TestCase):
         test_url = reverse('unfriendly-test')
         obfuscated_url = obfuscate(test_url)
         view_url = reverse('unfriendly-deobfuscate', kwargs={
-            'key': self.obfuscator.obfuscate(test_url),
+            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET),
         })
         self.assertEqual(view_url, obfuscated_url)
 
@@ -47,7 +46,7 @@ class UnfriendlyTests(TestCase):
         obfuscated_url = obfuscate(test_url, self.juice)
         view_url = reverse('unfriendly-deobfuscate', kwargs={
             'juice': slugify(self.juice),
-            'key': self.obfuscator.obfuscate(test_url),
+            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET),
         })
         self.assertEqual(view_url, obfuscated_url)
 

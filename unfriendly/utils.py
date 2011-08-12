@@ -1,46 +1,51 @@
 import base64
+import zlib
+import struct
+from Crypto.Cipher import AES
 
-from django.utils.hashcompat import sha_constructor
+class CheckSumError(Exception):
+    pass
 
+def _lazysecret(secret, blocksize=32, padding='}'):
+    """pads secret if not legal AES block size (16, 24, 32)"""
+    if not len(secret) in (16, 24, 32):
+        return secret + (blocksize - len(secret)) * padding
+    return secret
 
-class Obfuscator(object):
+def encrypt(plaintext, secret, lazy=True, checksum=True):
+    """encrypt plaintext with secret
+    plaintext   - content to encrypt
+    secret      - secret to encrypt plaintext
+    lazy        - pad secret if less than legal blocksize (default: True)
+    checksum    - attach crc32 byte encoded (default: True)
+    returns ciphertext
     """
-    Handles string obfuscation and deobfuscation.
 
-    Usage:
-    >>> o = Obfuscator('secret-key')
-    >>> o.obfuscate('cleartext')
-    'vJqxni-3Mrcx'
-    >>> o.deobfuscate('vJqxni-3Mrcx')
-    'cleartext'
+    secret = _lazysecret(secret) if lazy else secret
+    encobj = AES.new(secret, AES.MODE_CFB)
+
+    if checksum:
+        plaintext += struct.pack("i", zlib.crc32(plaintext))
+
+    return base64.urlsafe_b64encode(encobj.encrypt(plaintext)).replace('=', '')
+
+def decrypt(ciphertext, secret, lazy=True, checksum=True):
+    """decrypt ciphertext with secret
+    ciphertext  - encrypted content to decrypt
+    secret      - secret to decrypt ciphertext
+    lazy        - pad secret if less than legal blocksize (default: True)
+    checksum    - verify crc32 byte encoded checksum (default: True)
+    returns plaintext
     """
-    obfuscation_key = None
 
-    def __init__(self, secret):
-        self.obfuscation_key = (sha_constructor(secret).digest() +
-                                sha_constructor(secret[::-1]).digest())
+    secret = _lazysecret(secret) if lazy else secret
+    encobj = AES.new(secret, AES.MODE_CFB)
+    plaintext = encobj.decrypt(base64.urlsafe_b64decode(
+        ciphertext + ('=' * (len(ciphertext) % 4))))
 
+    if checksum:
+        crc, plaintext = (plaintext[-4:], plaintext[:-4])
+        if not crc == struct.pack("i", zlib.crc32(plaintext)):
+            raise CheckSumError("checksum mismatch")
 
-    def xor_map_string(self, data):
-        """
-        Returns obfuscated string (also deobfuscates).
-        """
-        key = self.obfuscation_key * (len(data)//len(self.obfuscation_key) + 1)
-        xor_gen = (chr(ord(t) ^ ord(k)) for t, k in zip(data, key))
-        return ''.join(xor_gen)
-
-
-    def obfuscate(self, data):
-        """
-        Obfuscates string in url-safe fashion.
-        """
-        return base64.urlsafe_b64encode(
-            self.xor_map_string(data)).replace('=', '')
-
-
-    def deobfuscate(self, data):
-        """
-        Deobfuscates string.
-        """
-        return self.xor_map_string(
-            base64.urlsafe_b64decode(data + ('=' * (len(data) % 4))))
+    return plaintext

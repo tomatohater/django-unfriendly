@@ -4,7 +4,7 @@ from django.core.urlresolvers import resolve, Resolver404
 from django.http import HttpResponseNotFound, QueryDict
 
 from unfriendly import settings
-from unfriendly.utils import Obfuscator
+from unfriendly.utils import decrypt, CheckSumError
 
 
 def deobfuscate(request, key, juice=None):
@@ -12,9 +12,11 @@ def deobfuscate(request, key, juice=None):
     Deobfuscates the URL and returns HttpResponse from source view.
     SEO juice is mostly ignored as it is intended for display purposes only.
     """
-    obfuscator = Obfuscator(settings.UNFRIENDLY_SECRET)
+    try:
+        url = decrypt(str(key), settings.UNFRIENDLY_SECRET)
+    except CheckSumError:
+        return HttpResponseNotFound()
 
-    url = obfuscator.deobfuscate(str(key))
     url_parts = urlparse(url)
     path = url_parts.path
     query = url_parts.query
