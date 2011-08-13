@@ -1,31 +1,46 @@
 django-unfriendly
-========================
+=================
 
-django-unfriendly is a Django app that obfuscates urls and allows your application to natively execute the original url's view.
+The unfriendliest urls in town! ``django-unfriendly`` is a Django app that obfuscates urls and allows your application to natively execute the original view.
 
 There is lots of talk about SEO friendly urls. The trend is towards more and more readable human information in your urls and Django makes it easy to create urls like::
 
-    http://yoursite.com/music/black-sabbath-is-awesome/
+    http://yoursite.com/music/awesome/the-melvins/
 
-But sometimes urls can give too much away. This is where django-unfriendly comes in.
+But sometimes urls can give too much away. This is where ``django-unfriendly`` comes in.
 
-django-unfriendly provides a template filter that obfuscates urls in your templates, and a url handler that deobfuscates and executes the original view (no redirection).
+``django-unfriendly`` provides a template filter that obfuscates urls in your templates, and a url handler/view that deobfuscates and executes the original view (e.g. no redirection).
 
 
 Why?
 ****
 
-Perhaps you have a Django application with urls like the one above and you don't want anyone tampering with your urls or guessing other possibilities::
+Perhaps you have a Django application with readable information in urls such as::
 
-    http://yoursite.com/music/melvins-are-awesome/
+    # original url
+    http://yoursite.com/music/awesome/the-melvins/
+
+And you don't want nosy people trying to guess other urls::
+
+    # user guesses another url (that likely exists)
+    http://yoursite.com/music/sucks/the-cure/
 
 You can obfuscate the url which might look like::
 
+    # obfuscated url
     http://yoursite.com/u/E5v4uxuNSA8I2is33c6V8lqFTcdv_IxPLDGG/
 
-Tampering with the obfuscated url should return a ``404 - Page not found`` error.
+Which will show the same response as the original url.
 
-Obfuscated urls are idempotent and may be safely cached.
+
+Goals
+*****
+
+1. The original url is never exposed (no redirect).
+
+2. Make tampering with the obfuscated url difficult. A tampered url should return a ``404 - Page not found`` error.
+
+3. Obfuscated urls are idempotent and may be safely cached.
 
 
 Installation
@@ -39,7 +54,7 @@ Installation
     # or with easy_install
     easy_install django-unfriendly
 
-2. Make sure you have any ``pycrypto`` installed::
+2. The only dependency is ``pycrypto``. Make sure it's installed::
 
     # with pip
     pip install pycrypto
@@ -64,17 +79,15 @@ Installation
     )
 
 
-
-
 Usage
-******
-Load this tag library into any templates where you want to use django-unfriendly::
+*****
+Load the tag library into any templates where you want to use ``django-unfriendly``::
 
     {% load unfriendly_tags %}
 
 Then apply the obfuscate filter to any url you'd like to hide::
 
-    <a href="{{ "/music/black-sabbath-is-awesome/"|obfuscate }}">Sabbath awesome</a>
+    <a href="{{ "/music/awesome/the-melvins/"|obfuscate }}">Melvins awesome</a>
 
 Or with ``{% url view %}`` reversal::
 
@@ -86,15 +99,15 @@ If SEO is still important to you, you can pass some SEO juice to the filter::
     <a href="{{ melvins_url|obfuscate:"King Buzzo rocks" }}">Melvins awesome</a>
 
 
-Setting
-******
+Settings
+********
 
 The following may be added to your setting.py to customize the behavior of this app.
 
  - ``UNFRIENDLY_SECRET``
 
-   - default: ``SECRET_KEY``
-   - Used for encryption/decryption. Note: AES keys must be either 16, 24, or 32 bytes long.
+   - default: ``SECRET_KEY`` (well, first 32 bytes of it)
+   - Random key used for encryption/decryption. Note: AES keys must be either 16, 24, or 32 bytes long.
 
  - ``UNFRIENDLY_ENFORCE_CHECKSUM``
 
@@ -103,9 +116,9 @@ The following may be added to your setting.py to customize the behavior of this 
 
 
 Credits
-********
+*******
 * `Drew Engelson`_
-* Inspiration from `django-urlcrypt`_
+* Some inspiration from `django-urlcrypt`_
 * Python encryption with crc from `Alon Swartz`_
 
 .. _`Drew Engelson`: http://github.com/tomatohater
