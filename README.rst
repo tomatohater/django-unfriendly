@@ -36,11 +36,13 @@ Which will show the same response as the original url.
 Goals
 *****
 
-1. The original url is never exposed (no redirect).
+1. The application must be completely transparent... Obfuscated urls should behave exactly like the original url. HTTP responses should be indistinguishable.
 
-2. Make tampering with the obfuscated url difficult. A tampered url should return a ``404 - Page not found`` error.
+2. The original url must never be exposed (no redirect).
 
-3. Obfuscated urls are idempotent and may be safely cached.
+3. Tampering with the obfuscated url should be difficult. A tampered url should return a ``404 - Page not found`` error.
+
+4. Obfuscated urls should be idempotent and may be safely cached. Or at least as cachable as the original url.
 
 
 Installation
