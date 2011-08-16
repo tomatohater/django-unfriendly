@@ -20,6 +20,9 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     package_data = {},
+    install_requires = [
+        'pycrypto>=2.0.1',
+    ],
     classifiers = [
         'Environment :: Web Environment',
         'Framework :: Django',
