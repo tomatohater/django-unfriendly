@@ -34,10 +34,10 @@ def deobfuscate(request, key, juice=None):
     environ['PATH_INFO'] = path[len(environ['SCRIPT_NAME']):]
     environ['QUERY_STRING'] = query
 
-    # re-init the request
-    request.__init__(environ)
+    # init a new request
+    patched_request = request.__class__(environ)
 
-    response = view(request, *args, **kwargs)
+    response = view(patched_request, *args, **kwargs)
 
     # offer up a friendlier juice-powered filename if downloaded
     if juice and not response.has_header('Content-Disposition'):
