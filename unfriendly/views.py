@@ -2,7 +2,7 @@ from urllib import unquote
 from urlparse import urlparse
 
 from django.core.urlresolvers import resolve, Resolver404
-from django.http import HttpResponseNotFound, QueryDict
+from django.http import HttpRequest, HttpResponseNotFound, QueryDict
 
 from unfriendly import settings
 from unfriendly.utils import decrypt, CheckSumError
@@ -29,12 +29,13 @@ def deobfuscate(request, key, juice=None):
     except Resolver404:
         return HttpResponseNotFound()
 
-    # fix-up the request object
-    request.path = path
-    request.path_info = path
-    request.GET = QueryDict(query)
-    request.META['QUERY_STRING'] = query
-    request.META['PATH_INFO'] = path
+    # fix-up the environ object
+    environ = request.environ
+    environ['PATH_INFO'] = path[len(environ['SCRIPT_NAME']):]
+    environ['QUERY_STRING'] = query
+
+    # re-init the request
+    request.__init__(environ)
 
     response = view(request, *args, **kwargs)
 
