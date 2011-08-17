@@ -2,7 +2,7 @@ from urllib import unquote
 from urlparse import urlparse
 
 from django.core.urlresolvers import resolve, Resolver404
-from django.http import HttpRequest, HttpResponseNotFound, QueryDict
+from django.http import HttpResponseNotFound, QueryDict
 
 from unfriendly import settings
 from unfriendly.utils import decrypt, CheckSumError
