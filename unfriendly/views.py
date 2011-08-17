@@ -30,7 +30,7 @@ def deobfuscate(request, key, juice=None):
         return HttpResponseNotFound()
 
     # fix-up the environ object
-    environ = request.environ
+    environ = request.environ.copy()
     environ['PATH_INFO'] = path[len(environ['SCRIPT_NAME']):]
     environ['QUERY_STRING'] = query
 
