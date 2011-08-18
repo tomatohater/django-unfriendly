@@ -3,7 +3,7 @@ django-unfriendly
 
 The unfriendliest urls in town! ``django-unfriendly`` is a Django app that obfuscates urls and allows your application to natively execute the original view.
 
-There is lots of talk about SEO friendly urls. The trend is towards more and more readable human information in your urls and Django makes it easy to create urls like::
+There is lots of talk about SEO friendly urls. The trend is towards more and more human readable information in your urls and Django makes it easy to create urls like::
 
     http://yoursite.com/music/awesome/the-melvins/
 
