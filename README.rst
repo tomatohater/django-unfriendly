@@ -115,14 +115,3 @@ The following may be added to your setting.py to customize the behavior of this 
 
    - default: ``True``
    - Determines whether or not the decrypted data is validated against a crc checksum to detect tampering.
-
-
-Credits
-*******
-* `Drew Engelson`_
-* Sanity checks by `Justin Quick`_
-* Python encryption with crc from `Alon Swartz`_
-
-.. _`Drew Engelson`: http://github.com/tomatohater
-.. _`Justin Quick`: https://github.com/justquick
-.. _`Alon Swartz`: http://www.turnkeylinux.org/blog/python-symmetric-encryption
