@@ -120,9 +120,9 @@ The following may be added to your setting.py to customize the behavior of this 
 Credits
 *******
 * `Drew Engelson`_
-* Some inspiration from `django-urlcrypt`_
+* Sanity checks by `Justin Quick`_
 * Python encryption with crc from `Alon Swartz`_
 
 .. _`Drew Engelson`: http://github.com/tomatohater
-.. _`django-urlcrypt`: http://github.com/dziegler/django-urlcrypt
+.. _`Justin Quick`: https://github.com/justquick
 .. _`Alon Swartz`: http://www.turnkeylinux.org/blog/python-symmetric-encryption
