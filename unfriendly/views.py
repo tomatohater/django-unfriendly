@@ -37,6 +37,13 @@ def deobfuscate(request, key, juice=None):
     # init a new request
     patched_request = request.__class__(environ)
 
+    # copy over any missing request attributes - this feels hackish
+    missing_items = set(dir(request)) - set(dir(patched_request))
+    while missing_items:
+        missing_item = missing_items.pop()
+        patched_request.__setattr__(missing_item,
+                                    request.__getattribute__(missing_item))
+
     response = view(patched_request, *args, **kwargs)
 
     # offer up a friendlier juice-powered filename if downloaded
