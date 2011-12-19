@@ -44,6 +44,9 @@ def deobfuscate(request, key, juice=None):
         patched_request.__setattr__(missing_item,
                                     request.__getattribute__(missing_item))
 
+    # mark this request as obfuscated
+    patched_request.META['obfuscated'] = True
+
     response = view(patched_request, *args, **kwargs)
 
     # offer up a friendlier juice-powered filename if downloaded
