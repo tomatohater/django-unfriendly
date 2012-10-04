@@ -15,7 +15,7 @@ def _lazysecret(secret, blocksize=32, padding='}'):
     return secret
 
 
-def encrypt(plaintext, secret, checksum=True, lazy=True):
+def encrypt(plaintext, secret, iv, checksum=True, lazy=True):
     """Encrypts plaintext with secret
     plaintext   - content to encrypt
     secret      - secret to encrypt plaintext
@@ -25,7 +25,7 @@ def encrypt(plaintext, secret, checksum=True, lazy=True):
     """
 
     secret = _lazysecret(secret) if lazy else secret
-    encobj = AES.new(secret, AES.MODE_CFB)
+    encobj = AES.new(secret, AES.MODE_CFB, iv)
 
     if checksum:
         plaintext += base64.urlsafe_b64encode(
@@ -34,7 +34,7 @@ def encrypt(plaintext, secret, checksum=True, lazy=True):
     return base64.urlsafe_b64encode(encobj.encrypt(plaintext)).replace('=', '')
 
 
-def decrypt(ciphertext, secret, checksum=True, lazy=True):
+def decrypt(ciphertext, secret, iv, checksum=True, lazy=True):
     """Decrypts ciphertext with secret
     ciphertext  - encrypted content to decrypt
     secret      - secret to decrypt ciphertext
@@ -44,7 +44,7 @@ def decrypt(ciphertext, secret, checksum=True, lazy=True):
     """
 
     secret = _lazysecret(secret) if lazy else secret
-    encobj = AES.new(secret, AES.MODE_CFB)
+    encobj = AES.new(secret, AES.MODE_CFB, iv)
     plaintext = encobj.decrypt(base64.urlsafe_b64decode(
         ciphertext + ('=' * (len(ciphertext) % 4))))
 

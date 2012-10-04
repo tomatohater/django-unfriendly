@@ -25,6 +25,7 @@ def obfuscate(value, juice=None):
     kwargs = {
         'key': encrypt(value,
                        settings.UNFRIENDLY_SECRET,
+                       settings.UNFRIENDLY_IV,
                        checksum=settings.UNFRIENDLY_ENFORCE_CHECKSUM),
     }
     if juice:

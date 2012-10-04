@@ -16,6 +16,7 @@ def deobfuscate(request, key, juice=None):
     try:
         url = decrypt(str(key),
                       settings.UNFRIENDLY_SECRET,
+                      settings.UNFRIENDLY_IV,
                       checksum=settings.UNFRIENDLY_ENFORCE_CHECKSUM)
     except CheckSumError:
         return HttpResponseNotFound()
