@@ -21,10 +21,12 @@ class UnfriendlyTests(TestCase):
         """
         original = self.juice
 
-        obfuscated = encrypt(original, settings.UNFRIENDLY_SECRET)
+        obfuscated = encrypt(original, settings.UNFRIENDLY_SECRET, 
+            settings.UNFRIENDLY_IV)
         self.assertNotEqual(original, obfuscated)
 
-        deobfuscated = decrypt(obfuscated, settings.UNFRIENDLY_SECRET)
+        deobfuscated = decrypt(obfuscated, settings.UNFRIENDLY_SECRET, 
+            settings.UNFRIENDLY_IV)
         self.assertEqual(original, deobfuscated)
 
     def test_obfuscate_filter(self):
@@ -34,7 +36,8 @@ class UnfriendlyTests(TestCase):
         test_url = reverse('unfriendly-test')
         obfuscated_url = obfuscate(test_url)
         view_url = reverse('unfriendly-deobfuscate', kwargs={
-            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET),
+            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET, 
+                settings.UNFRIENDLY_IV),
         })
         self.assertEqual(view_url, obfuscated_url)
 
@@ -46,7 +49,8 @@ class UnfriendlyTests(TestCase):
         obfuscated_url = obfuscate(test_url, self.juice)
         view_url = reverse('unfriendly-deobfuscate', kwargs={
             'juice': slugify(self.juice),
-            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET),
+            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET, 
+                settings.UNFRIENDLY_IV),
         })
         self.assertEqual(view_url, obfuscated_url)
 
