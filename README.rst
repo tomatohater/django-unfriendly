@@ -19,7 +19,7 @@ But sometimes urls can give too much away. This is where ``django-unfriendly`` c
 ``django-unfriendly`` provides a template filter that obfuscates urls in your templates, and a url handler/view that deobfuscates and executes the original view (e.g. no redirection).
 
 
-Now go Read The Docs
-********************
+Read the docs
+*************
 
-https://django-unfriendly.readthedocs.org/en/latest/'
+https://django-unfriendly.readthedocs.org/en/latest/
