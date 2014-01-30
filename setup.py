@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Setup file for django-unfriendly."""
+
 from setuptools import setup, find_packages
 import unfriendly
 import os

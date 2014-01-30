@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Standalone app test runner (no Django project required)."""
+
 import os
 import sys
 import argparse
