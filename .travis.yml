@@ -3,7 +3,6 @@ language: python
 
 # List the versions of Python you'd like to test against
 python:
-  - "2.5"
   - "2.6"
   - "2.7"
 
