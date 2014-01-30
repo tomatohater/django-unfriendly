@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Django view handlers."""
+
 from urllib import unquote
 from urlparse import urlparse
 

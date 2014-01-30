@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Setup file for django-unfriendly."""
+
 from setuptools import setup, find_packages
 import unfriendly
 import os
@@ -15,7 +18,7 @@ setup(
     url = 'http://github.com/tomatohater/django-unfriendly',
     author = 'Drew Engelson',
     author_email = 'drew@engelson.net',
-    license = 'BSD',
+    license='MIT',
     zip_safe = False,
     packages = find_packages(),
     include_package_data = True,
@@ -27,7 +30,7 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
