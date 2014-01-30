@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Url handlers for tests."""
+
 try:
     from django.conf.urls import include, patterns, url
 except ImportError:
@@ -5,10 +8,12 @@ except ImportError:
     from django.conf.urls.defaults import include, patterns, url
 
 
-urlpatterns = patterns('unfriendly.tests.views',
+urlpatterns = patterns(
+    'unfriendly.tests.views',
     url(r'^test-view/$', 'test_view', name='unfriendly-test'),
 )
 
-urlpatterns += patterns('',
-    url(r'^',   include('unfriendly.urls')),
+urlpatterns += patterns(
+    '',
+    url(r'^', include('unfriendly.urls')),
 )

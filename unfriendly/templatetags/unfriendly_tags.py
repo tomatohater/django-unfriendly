@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Module contains package templatetags."""
+
 from django import template
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
