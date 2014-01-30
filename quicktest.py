@@ -50,7 +50,8 @@ class QuickDjangoTest(object):
         settings.configure(DEBUG = True,
            DATABASE_ENGINE = 'sqlite3',
            DATABASE_NAME = os.path.join(self.DIRNAME, 'database.db'),
-           INSTALLED_APPS = self.INSTALLED_APPS + self.apps
+           INSTALLED_APPS = self.INSTALLED_APPS + self.apps,
+           ROOT_URLCONF = 'unfriendly.tests.urls',
         )
         from django.test.simple import run_tests
         failures = run_tests(self.apps, verbosity=1)
@@ -75,8 +76,6 @@ class QuickDjangoTest(object):
             },
             INSTALLED_APPS = self.INSTALLED_APPS + self.apps,
             ROOT_URLCONF = 'unfriendly.tests.urls',
-            #UNFRIENDLY_SECRET = 'hush' * 8,
-            #UNFRIENDLY_IV = 'hush' * 4
         )
         from django.test.simple import DjangoTestSuiteRunner
         failures = DjangoTestSuiteRunner().run_tests(self.apps, verbosity=1)
