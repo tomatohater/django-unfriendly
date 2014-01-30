@@ -6,9 +6,11 @@ The unfriendliest urls in town! ``django-unfriendly`` is a Django app that obfus
 .. image:: https://travis-ci.org/tomatohater/django-unfriendly.png?branch=master
     :target: https://travis-ci.org/tomatohater/django-unfriendly
 
+.. image:: https://coveralls.io/repos/tomatohater/django-unfriendly/badge.png?branch=master
+	:target: https://coveralls.io/r/tomatohater/django-unfriendly?branch=master
+
 .. image:: https://badge.fury.io/py/django-unfriendly.png
     :target: http://badge.fury.io/py/django-unfriendly
-
 
 There is lots of talk about SEO friendly urls. The trend is towards more and more human readable information in your urls and Django makes it easy to create urls like::
 
