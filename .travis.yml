@@ -1,0 +1,30 @@
+# Tell Trav­is you want a Py­thon en­vir­on­ment to test in
+lan­guage: py­thon
+
+# List the ver­sions of Py­thon you'd like to test against
+py­thon:
+#  - "2.5"
+#  - "2.6"
+  - "2.7"
+
+# List the ver­sions of Django you'd like to test against
+env:
+  - DJAN­GO_VER­SION=1.0.4
+  - DJAN­GO_VER­SION=1.1.4
+  - DJAN­GO_VER­SION=1.2.7
+  - DJAN­GO_VER­SION=1.3.1
+  - DJAN­GO_VER­SION=1.4
+
+# Tell it the things it will need to in­stall when it boots
+in­stall: 
+   # This is a de­pend­ency of our Django test script
+ - pip in­stall ar­g­parse --use-mir­rors
+   # In­stall the de­pend­en­cies the app it­self has
+   # which in this case I choose to keep in a re­quire­ments file
+ - pip in­stall pycrypto>=2.0.1 --use-mir­rors
+   # In­stall whatever ver­sion of Django that's lis­ted above
+   # Trav­is is cur­rently work­ing on
+ - pip in­stall -q Django==$DJAN­GO_VER­SION --use-mir­rors
+
+# Tell Trav­is how to run the test script it­self
+script: py­thon quicktest.py unfriendly
