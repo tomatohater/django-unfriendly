@@ -1,4 +1,9 @@
-from django.conf.urls.defaults import patterns, url
+try:
+    from django.conf.urls import patterns, url
+except ImportError:
+    # For Django versions older than 1.4 (removed in 1.6)
+    from django.conf.urls.defaults import patterns, url
+
 
 urlpatterns = patterns('unfriendly.views',
     # Mostly unfriendly URL (but with SEO juice).

@@ -1,4 +1,8 @@
-from django.conf.urls.defaults import patterns, url, include
+try:
+    from django.conf.urls import include, patterns, url
+except ImportError:
+    # For Django versions older than 1.4 (removed in 1.6)
+    from django.conf.urls.defaults import include, patterns, url
 
 
 urlpatterns = patterns('unfriendly.tests.views',
