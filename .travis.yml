@@ -17,13 +17,20 @@ env:
 
 # Tell it the things it will need to install when it boots
 install: 
-   # This is a dependency of our Django test script
- - pip install argparse --use-mirrors
-   # Install the dependencies the app itself has
- - pip install pycrypto>=2.0.1 --use-mirrors
-   # Install whatever version of Django that's listed above
-   # Travis is currently working on
- - pip install -q Django==$DJANGO_VERSION --use-mirrors
+  # This is a dependency of our Django test script
+  - pip install argparse --use-mirrors
+  - pip install coverage --use-mirrors
+  - pip install coveralls --use-mirrors
+
+  # Install the dependencies the app itself has
+  - pip install pycrypto>=2.0.1 --use-mirrors
+  # Install whatever version of Django that's listed above
+  # Travis is currently working on
+  - pip install -q Django==$DJANGO_VERSION --use-mirrors
 
 # Tell Travis how to run the test script itself
-script: python quicktest.py unfriendly
+script: 
+  coverage run --source=unfriendly quicktest.py unfriendly
+
+after_success:
+  coveralls
