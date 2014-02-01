@@ -8,7 +8,7 @@ from django.core.urlresolvers import resolve, Resolver404
 from django.http import HttpResponseNotFound
 
 from unfriendly import settings
-from unfriendly.utils import decrypt, CheckSumError
+from unfriendly.utils import CheckSumError, decrypt
 
 
 def deobfuscate(request, key, juice=None):
