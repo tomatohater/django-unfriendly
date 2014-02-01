@@ -125,7 +125,7 @@ class UnfriendlyTests(TestCase):
         test_url = 'bad-path'
         obfuscated_url = obfuscate(test_url)
         response = self.client.get(obfuscated_url)
-        self.assertIsInstance(response, HttpResponseNotFound)
+        self.assertEqual(response.status_code, 404)
 
     def test_deobfuscate_view_404(self):
         """
@@ -135,5 +135,5 @@ class UnfriendlyTests(TestCase):
             'key': 'hacked-key',
         })
         response = self.client.get(view_url)
-        self.assertIsInstance(response, HttpResponseNotFound)
+        self.assertEqual(response.status_code, 404)
 
