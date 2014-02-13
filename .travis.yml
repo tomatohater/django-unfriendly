@@ -13,7 +13,7 @@ env:
   - DJANGO_VERSION=1.3.7
   - DJANGO_VERSION=1.4.10
   - DJANGO_VERSION=1.5.5
-  - DJANGO_VERSION=1.6.1
+  - DJANGO_VERSION=1.6.2
 
 # Tell it the things it will need to install when it boots
 install: 
