@@ -6,9 +6,8 @@ from urlparse import urlparse
 
 from django.core.urlresolvers import resolve, Resolver404
 from django.http import HttpResponseNotFound
-
 from unfriendly import settings
-from unfriendly.utils import CheckSumError, decrypt
+from unfriendly.utils import CheckSumError, decrypt, InvalidKeyError
 
 
 def deobfuscate(request, key, juice=None):
@@ -21,7 +20,7 @@ def deobfuscate(request, key, juice=None):
                       settings.UNFRIENDLY_SECRET,
                       settings.UNFRIENDLY_IV,
                       checksum=settings.UNFRIENDLY_ENFORCE_CHECKSUM)
-    except CheckSumError:
+    except (CheckSumError, InvalidKeyError):
         return HttpResponseNotFound()
 
     url_parts = urlparse(unquote(url))
