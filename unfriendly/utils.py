@@ -2,10 +2,15 @@
 """Various encryption utilites."""
 
 import base64
-import zlib
 import struct
+import zlib
+
 from Crypto.Cipher import AES
 
+
+class InvalidKeyError(Exception):
+    """Invalid key error class."""
+    pass
 
 class CheckSumError(Exception):
     """Checksum mismatch error class."""
@@ -51,8 +56,11 @@ def decrypt(ciphertext, secret, inital_vector, checksum=True, lazy=True):
 
     secret = _lazysecret(secret) if lazy else secret
     encobj = AES.new(secret, AES.MODE_CFB, inital_vector)
-    plaintext = encobj.decrypt(base64.urlsafe_b64decode(
-        ciphertext + ('=' * (len(ciphertext) % 4))))
+    try:
+        plaintext = encobj.decrypt(base64.urlsafe_b64decode(
+            ciphertext + ('=' * (len(ciphertext) % 4))))
+    except TypeError:
+        raise InvalidKeyError("invalid key")
 
     if checksum:
         try:

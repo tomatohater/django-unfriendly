@@ -137,3 +137,12 @@ class UnfriendlyTests(TestCase):
         response = self.client.get(view_url)
         self.assertEqual(response.status_code, 404)
 
+    def test_deobfuscate_view_404_invalid_key(self):
+        """
+        Test deobfuscate view with an invalid key (too short).
+        """
+        view_url = reverse('unfriendly-deobfuscate', kwargs={
+            'key': 'i',
+        })
+        response = self.client.get(view_url)
+        self.assertEqual(response.status_code, 404)
