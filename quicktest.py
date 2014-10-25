@@ -83,7 +83,7 @@ class QuickDjangoTest(object):
             ROOT_URLCONF = 'unfriendly.tests.urls',
         )
         if django.VERSION[0] == 1 and django.VERSION[1] >= 7:
-            django.setup()
+            django.setup()  # Django 1.7+ requires setup()
         from django.test.simple import DjangoTestSuiteRunner
         failures = DjangoTestSuiteRunner().run_tests(self.apps, verbosity=1)
         if failures:
