@@ -11,12 +11,13 @@ env:
   - DJANGO_VERSION=1.1.4
   - DJANGO_VERSION=1.2.7
   - DJANGO_VERSION=1.3.7
-  - DJANGO_VERSION=1.4.10
-  - DJANGO_VERSION=1.5.5
-  - DJANGO_VERSION=1.6.2
+  - DJANGO_VERSION=1.4.16
+  - DJANGO_VERSION=1.5.11
+  - DJANGO_VERSION=1.6.8
+  - DJANGO_VERSION=1.7.1
 
 # Tell it the things it will need to install when it boots
-install: 
+install:
   # This is a dependency of our Django test script
   - pip install argparse --use-mirrors
   - pip install coverage --use-mirrors
@@ -29,8 +30,21 @@ install:
   - pip install -q Django==$DJANGO_VERSION --use-mirrors
 
 # Tell Travis how to run the test script itself
-script: 
+script:
   coverage run --source=unfriendly quicktest.py unfriendly
 
 after_success:
   coveralls
+
+matrix:
+  exclude:
+   - python: "2.6"
+     env: DJANGO_VERSION=1.7.1
+   - python: "3.2"
+     env: DJANGO_VERSION=1.1.4
+   - python: "3.2"
+     env: DJANGO_VERSION=1.2.7
+   - python: "3.2"
+     env: DJANGO_VERSION=1.3.7
+   - python: "3.2"
+     env: DJANGO_VERSION=1.4.16

@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
 """Standalone app test runner (no Django project required)."""
 
+import argparse
 import os
 import sys
-import argparse
+
+import django
 from django.conf import settings
 
 
 class QuickDjangoTest(object):
     """
     A quick way to run the Django test suite without a fully-configured project.
-    
+
     Example usage:
-    
+
         >>> QuickDjangoTest('app1', 'app2')
-    
-    Based on a script published by Lukasz Dziedzia at: 
+
+    Based on a script published by Lukasz Dziedzia at:
     http://stackoverflow.com/questions/3841725/how-to-launch-tests-for-django-reusable-app
     """
     DIRNAME = os.path.dirname(__file__)
@@ -25,7 +27,7 @@ class QuickDjangoTest(object):
         'django.contrib.sessions',
         'django.contrib.admin',
     )
-    
+
     def __init__(self, *args, **kwargs):
         self.apps = args
         # Get the version of the test suite
@@ -35,17 +37,16 @@ class QuickDjangoTest(object):
             self._new_tests()
         else:
             self._old_tests()
-    
+
     def get_test_version(self):
         """
         Figure out which version of Django's test suite we have to play with.
         """
-        from django import VERSION
-        if VERSION[0] == 1 and VERSION[1] >= 2:
+        if django.VERSION[0] == 1 and django.VERSION[1] >= 2:
             return 'new'
         else:
             return 'old'
-    
+
     def _old_tests(self):
         """
         Fire up the Django test suite from before version 1.2
@@ -60,7 +61,7 @@ class QuickDjangoTest(object):
         failures = run_tests(self.apps, verbosity=1)
         if failures:
             sys.exit(failures)
-    
+
     def _new_tests(self):
         """
         Fire up the Django test suite developed for version 1.2
@@ -78,8 +79,11 @@ class QuickDjangoTest(object):
                 }
             },
             INSTALLED_APPS = self.INSTALLED_APPS + self.apps,
+            MIDDLEWARE_CLASSES = (),
             ROOT_URLCONF = 'unfriendly.tests.urls',
         )
+        if django.VERSION[0] == 1 and django.VERSION[1] >= 7:
+            django.setup()
         from django.test.simple import DjangoTestSuiteRunner
         failures = DjangoTestSuiteRunner().run_tests(self.apps, verbosity=1)
         if failures:
@@ -88,11 +92,11 @@ class QuickDjangoTest(object):
 if __name__ == '__main__':
     """
     What do when the user hits this file from the shell.
-    
+
     Example usage:
-    
+
         $ python quicktest.py app1 app2
-    
+
     """
     parser = argparse.ArgumentParser(
         usage="[args]",
