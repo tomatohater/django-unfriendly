@@ -6,11 +6,13 @@ import os
 import sys
 
 import django
-from django import VERSION
+
+if django.VERSION[0] == 1 and django.VERSION[1] >= 7:
+    django.setup()
+
 from django.conf import settings
 
-if VERSION[0] == 1 and VERSION[1] >= 7:
-    django.setup()
+
 
 class QuickDjangoTest(object):
     """
@@ -45,7 +47,7 @@ class QuickDjangoTest(object):
         """
         Figure out which version of Django's test suite we have to play with.
         """
-        if VERSION[0] == 1 and VERSION[1] >= 2:
+        if django.VERSION[0] == 1 and django.VERSION[1] >= 2:
             return 'new'
         else:
             return 'old'
