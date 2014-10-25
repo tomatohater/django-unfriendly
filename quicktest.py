@@ -6,12 +6,7 @@ import os
 import sys
 
 import django
-
-if django.VERSION[0] == 1 and django.VERSION[1] >= 7:
-    django.setup()
-
 from django.conf import settings
-
 
 
 class QuickDjangoTest(object):
@@ -86,6 +81,8 @@ class QuickDjangoTest(object):
             INSTALLED_APPS = self.INSTALLED_APPS + self.apps,
             ROOT_URLCONF = 'unfriendly.tests.urls',
         )
+        if django.VERSION[0] == 1 and django.VERSION[1] >= 7:
+            django.setup()
         from django.test.simple import DjangoTestSuiteRunner
         failures = DjangoTestSuiteRunner().run_tests(self.apps, verbosity=1)
         if failures:
