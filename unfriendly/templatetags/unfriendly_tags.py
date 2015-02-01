@@ -34,4 +34,7 @@ def obfuscate(value, juice=None):
     if juice:
         kwargs['juice'] = slugify(juice)
 
-    return reverse('unfriendly-deobfuscate', kwargs=kwargs)
+    if settings.UNFRIENDLY_ENABLE:
+        return reverse('unfriendly-deobfuscate', kwargs=kwargs)
+    else:
+        return value
