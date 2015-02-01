@@ -4,9 +4,10 @@
 from django.conf import settings
 
 #
-#  UNFRIENDLY_ENABLE - actually enable it
+# UNFRIENDLY_ENABLE_FILTER actually enables the filter (default: True)
+# When False, template filter returns original unaltered URL
 #
-UNFRIENDLY_ENABLE = getattr(settings, 'UNFRIENDLY_ENABLE', True )
+UNFRIENDLY_ENABLE_FILTER = getattr(settings, 'UNFRIENDLY_ENABLE_FILTER', True)
 
 #
 # UNFRIENDLY_SECRET is used for encryption/decryption
