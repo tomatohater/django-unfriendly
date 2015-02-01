@@ -23,7 +23,7 @@ def obfuscate(value, juice=None):
         Include some SEO juice:
         {{ "/my-secret-path/"|obfuscate:"some SEO friendly text" }}
     """
-    if settings.UNFRIENDLY_ENABLE_FILTER:
+    if not settings.UNFRIENDLY_ENABLE_FILTER:
         return value
     kwargs = {
         'key': encrypt(value,
