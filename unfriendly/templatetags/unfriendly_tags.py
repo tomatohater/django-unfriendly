@@ -36,5 +36,5 @@ def obfuscate(value, juice=None):
 
     if settings.UNFRIENDLY_ENABLE:
         return reverse('unfriendly-deobfuscate', kwargs=kwargs)
-    else 
+    else:
         return value
