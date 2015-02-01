@@ -19,15 +19,15 @@ env:
 # Tell it the things it will need to install when it boots
 install:
   # This is a dependency of our Django test script
-  - pip install argparse --use-mirrors
-  - pip install coverage --use-mirrors
-  - pip install coveralls --use-mirrors
+  - pip install argparse
+  - pip install coverage
+  - pip install coveralls
 
   # Install the dependencies the app itself has
-  - pip install pycrypto>=2.0.1 --use-mirrors
+  - pip install pycrypto>=2.0.1
   # Install whatever version of Django that's listed above
   # Travis is currently working on
-  - pip install -q Django==$DJANGO_VERSION --use-mirrors
+  - pip install -q Django==$DJANGO_VERSION
 
 # Tell Travis how to run the test script itself
 script:
