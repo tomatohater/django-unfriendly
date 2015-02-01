@@ -4,6 +4,11 @@
 from django.conf import settings
 
 #
+#  UNFRIENDLY_ENABLE - actually enable it
+#
+UNFRIENDLY_ENABLE = getattr(settings, 'UNFRIENDLY_ENABLE', True )
+
+#
 # UNFRIENDLY_SECRET is used for encryption/decryption
 # Note: AES keys must be either 16, 24, or 32 bytes long
 #
