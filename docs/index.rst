@@ -116,6 +116,12 @@ Settings
 
 The following may be added to your setting.py to customize the behavior of this app.
 
+- ``UNFRIENDLY_ENABLE_FILTER``
+
+   - default: ``True``
+   - Enables the template filter. When ``False``, template filter returns original unaltered URL.
+
+
  - ``UNFRIENDLY_SECRET``
 
    - default: ``SECRET_KEY`` (well, first 32 bytes of it)
