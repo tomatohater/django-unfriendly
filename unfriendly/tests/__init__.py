@@ -3,12 +3,11 @@
 
 import datetime
 
-
 from django.http import HttpResponseNotFound
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.test import TestCase
-import mock
+from mock import patch
 
 from unfriendly import settings
 from unfriendly.utils import CheckSumError, encrypt, decrypt
@@ -96,32 +95,36 @@ class UnfriendlyTests(TestCase):
         })
         self.assertEqual(view_url, obfuscated_url)
 
-        @mock.patch('django.conf.settings.UNFRIENDLY_ENABLE_FILTER', False)
-        def test_obfuscate_disabled_filter(self):
-            """
-            Test the obfuscate filter.
-            """
-            test_url = reverse('unfriendly-test')
-            obfuscated_url = obfuscate(test_url)
-            view_url = reverse('unfriendly-deobfuscate', kwargs={
-                'key': encrypt(test_url, settings.UNFRIENDLY_SECRET,
-                               settings.UNFRIENDLY_IV),
-            })
-            self.assertEqual(view_url, obfuscated_url)
+    @patch('unfriendly.templatetags.unfriendly_tags.settings.UNFRIENDLY_ENABLE_FILTER',
+           False)
+    def test_obfuscate_filter_disabled(self):
+        """
+        Test the obfuscate filter when disabled in settings.
+        """
+        test_url = reverse('unfriendly-test')
+        obfuscated_url = obfuscate(test_url)
+        view_url = reverse('unfriendly-deobfuscate', kwargs={
+            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET,
+                           settings.UNFRIENDLY_IV),
+        })
+        self.assertNotEqual(view_url, obfuscated_url)
+        self.assertNotEqual(view_url, test_url)
 
-        @mock.patch('django.conf.settings.UNFRIENDLY_ENABLE_FILTER', False)
-        def test_obfuscate_disabled_filter_with_juice(self):
-            """
-            Test the obfuscate filter.
-            """
-            test_url = reverse('unfriendly-test')
-            obfuscated_url = obfuscate(test_url, self.juice)
-            view_url = reverse('unfriendly-deobfuscate', kwargs={
-                'juice': slugify(self.juice),
-                'key': encrypt(test_url, settings.UNFRIENDLY_SECRET,
-                               settings.UNFRIENDLY_IV),
-            })
-            self.assertEqual(view_url, obfuscated_url)
+    @patch('unfriendly.templatetags.unfriendly_tags.settings.UNFRIENDLY_ENABLE_FILTER',
+           False)
+    def test_obfuscate_filter_with_juice_disabled(self):
+        """
+        Test the obfuscate filter when disabled in settings.
+        """
+        test_url = reverse('unfriendly-test')
+        obfuscated_url = obfuscate(test_url, self.juice)
+        view_url = reverse('unfriendly-deobfuscate', kwargs={
+            'juice': slugify(self.juice),
+            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET,
+                           settings.UNFRIENDLY_IV),
+        })
+        self.assertNotEqual(view_url, obfuscated_url)
+        self.assertNotEqual(view_url, test_url)
 
     def test_deobfuscate_view(self):
         """

@@ -4,6 +4,7 @@
 from django import template
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
+
 from unfriendly import settings
 from unfriendly.utils import encrypt
 
