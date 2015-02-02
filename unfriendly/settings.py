@@ -4,6 +4,12 @@
 from django.conf import settings
 
 #
+# UNFRIENDLY_ENABLE_FILTER actually enables the filter (default: True)
+# When False, template filter returns original unaltered URL
+#
+UNFRIENDLY_ENABLE_FILTER = getattr(settings, 'UNFRIENDLY_ENABLE_FILTER', True)
+
+#
 # UNFRIENDLY_SECRET is used for encryption/decryption
 # Note: AES keys must be either 16, 24, or 32 bytes long
 #

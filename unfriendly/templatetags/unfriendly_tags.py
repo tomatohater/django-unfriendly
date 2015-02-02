@@ -8,7 +8,6 @@ from django.template.defaultfilters import slugify
 from unfriendly import settings
 from unfriendly.utils import encrypt
 
-
 register = template.Library()
 
 
@@ -25,6 +24,8 @@ def obfuscate(value, juice=None):
         Include some SEO juice:
         {{ "/my-secret-path/"|obfuscate:"some SEO friendly text" }}
     """
+    if not settings.UNFRIENDLY_ENABLE_FILTER:
+        return value
     kwargs = {
         'key': encrypt(value,
                        settings.UNFRIENDLY_SECRET,
@@ -33,5 +34,4 @@ def obfuscate(value, juice=None):
     }
     if juice:
         kwargs['juice'] = slugify(juice)
-
     return reverse('unfriendly-deobfuscate', kwargs=kwargs)
