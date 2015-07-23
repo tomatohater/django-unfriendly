@@ -82,10 +82,13 @@ class QuickDjangoTest(object):
             MIDDLEWARE_CLASSES = (),
             ROOT_URLCONF = 'unfriendly.tests.urls',
         )
-        if django.VERSION[0] == 1 and django.VERSION[1] >= 7:
-            django.setup()  # Django 1.7+ requires setup()
-        from django.test.simple import DjangoTestSuiteRunner
-        failures = DjangoTestSuiteRunner().run_tests(self.apps, verbosity=1)
+        if django.VERSION >= (1, 7):
+            django.setup()
+        try:
+            from django.test.simple import DjangoTestSuiteRunner as Runner
+        except ImportError:
+            from django.test.runner import DiscoverRunner as Runner
+        failures = Runner().run_tests(self.apps, verbosity=1)
         if failures:
             sys.exit(failures)
 
