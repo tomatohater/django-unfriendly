@@ -5,6 +5,7 @@ import argparse
 import os
 import sys
 
+
 import django
 from django.conf import settings
 
@@ -30,22 +31,13 @@ class QuickDjangoTest(object):
 
     def __init__(self, *args, **kwargs):
         self.apps = args
-        # Get the version of the test suite
-        self.version = self.get_test_version()
-        # Call the appropriate one
-        if self.version == 'new':
+
+        if django.VERSION >= (1, 8):
+            self._one_eight_plus_tests()
+        elif django.VERSION >= (1, 2):
             self._new_tests()
         else:
             self._old_tests()
-
-    def get_test_version(self):
-        """
-        Figure out which version of Django's test suite we have to play with.
-        """
-        if django.VERSION[0] == 1 and django.VERSION[1] >= 2:
-            return 'new'
-        else:
-            return 'old'
 
     def _old_tests(self):
         """
@@ -89,6 +81,32 @@ class QuickDjangoTest(object):
         except ImportError:
             from django.test.runner import DiscoverRunner as Runner
         failures = Runner().run_tests(self.apps, verbosity=1)
+        if failures:
+            sys.exit(failures)
+
+    def _one_eight_plus_tests(self):
+        """
+        Fire up the Django test suite developed for version 1.2
+        """
+        settings.configure(
+            DEBUG=True,
+            DATABASES={
+                'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': os.path.join(self.DIRNAME, 'database.db'),
+                    'USER': '',
+                    'PASSWORD': '',
+                    'HOST': '',
+                    'PORT': '',
+                }
+            },
+            INSTALLED_APPS=self.INSTALLED_APPS + self.apps,
+            MIDDLEWARE_CLASSES=(),
+            ROOT_URLCONF='unfriendly.tests.urls',
+        )
+        django.setup()
+        from django.test.runner import DiscoverRunner
+        failures = DiscoverRunner(pattern='*.py').run_tests(self.apps, verbosity=1)
         if failures:
             sys.exit(failures)
 

@@ -2,11 +2,9 @@
 """Url handlers."""
 
 import django
-from distutils.version import StrictVersion
 
-DJANGO_VERSION = StrictVersion(django.get_version())
 
-if DJANGO_VERSION >= StrictVersion('1.9'):
+if django.VERSION >= (1, 9):
 
     from django.conf.urls import url
     from unfriendly.views import deobfuscate
@@ -22,7 +20,7 @@ if DJANGO_VERSION >= StrictVersion('1.9'):
 
 else:
 
-    if DJANGO_VERSION >= StrictVersion('1.5'):
+    if django.VERSION >= (1, 4):
         from django.conf.urls import patterns, url
     else:
         from django.conf.urls.defaults import patterns, url
