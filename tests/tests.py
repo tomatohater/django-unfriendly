@@ -4,7 +4,6 @@
 import datetime
 
 from django.http import HttpResponseNotFound
-from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.test import TestCase
 from mock import patch
@@ -13,10 +12,15 @@ from unfriendly import settings
 from unfriendly.utils import CheckSumError, encrypt, decrypt
 from unfriendly.templatetags.unfriendly_tags import obfuscate
 
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
+
 
 class UnfriendlyTests(TestCase):
     """Test case for django-unfriendly."""
-    urls = 'unfriendly.tests.urls'
+    urls = 'tests.urls'
 
     def setUp(self):
         self.juice = 'Lorem ipsum dolor sit amet'

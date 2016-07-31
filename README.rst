@@ -25,3 +25,15 @@ Read the docs
 *************
 
 https://django-unfriendly.readthedocs.org/en/latest/
+
+Version compatibility
+*********************
+
+- v0.5.0
+    - Python 2.7
+    - Django 1.8, 1.9, 1.10
+- v0.4.1
+    - Python 2.6 and 2.7
+    - Django 1.0 - 1.8
+
+Python 3+ support coming soon...

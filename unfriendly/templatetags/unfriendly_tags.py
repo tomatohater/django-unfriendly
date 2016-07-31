@@ -2,11 +2,15 @@
 """Module contains package templatetags."""
 
 from django import template
-from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
-
 from unfriendly import settings
 from unfriendly.utils import encrypt
+
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
+
 
 register = template.Library()
 

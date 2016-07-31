@@ -42,8 +42,8 @@ You can obfuscate the url which might look like::
 Which will show the same response as the original url.
 
 
-Goals
-*****
+Design Principals
+*****************
 
 1. The application must be completely transparent... Obfuscated urls should behave exactly like the original url. HTTP responses should be indistinguishable.
 
@@ -83,11 +83,11 @@ Installation
 
 4. Add ``unfriendly.urls`` to your ``urls.py``::
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         ...
         url(r'^u/', include('unfriendly.urls')),
         ...
-    )
+    ]
 
 
 Usage
@@ -138,3 +138,16 @@ The following may be added to your setting.py to customize the behavior of this 
 
    - default: ``True``
    - Determines whether or not the decrypted data is validated against a crc checksum to detect tampering.
+
+
+Version compatibility
+*********************
+
+- v0.5.0
+    - Python 2.7
+    - Django 1.8, 1.9, 1.10
+- v0.4.1
+    - Python 2.6 and 2.7
+    - Django 1.0 - 1.8
+
+Python 3+ support coming soon...

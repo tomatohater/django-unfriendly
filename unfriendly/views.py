@@ -4,10 +4,16 @@
 from urllib import unquote
 from urlparse import urlparse
 
-from django.core.urlresolvers import resolve, Resolver404
 from django.http import HttpResponseNotFound
+
+try:
+    from django.urls import Resolver404, resolve
+except ImportError:
+    from django.core.urlresolvers  import Resolver404, resolve
+
+
 from unfriendly import settings
-from unfriendly.utils import CheckSumError, decrypt, InvalidKeyError
+from unfriendly.utils import CheckSumError, InvalidKeyError, decrypt
 
 
 def deobfuscate(request, key, juice=None):

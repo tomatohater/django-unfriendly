@@ -3,48 +3,29 @@ language: python
 
 # List the versions of Python you'd like to test against
 python:
-  - "2.6"
   - "2.7"
 
 # List the versions of Django you'd like to test against
 env:
-  - DJANGO_VERSION=1.1.4
-  - DJANGO_VERSION=1.2.7
-  - DJANGO_VERSION=1.3.7
-  - DJANGO_VERSION=1.4.21
-  - DJANGO_VERSION=1.5.12
-  - DJANGO_VERSION=1.6.11
-  - DJANGO_VERSION=1.7.9
-  - DJANGO_VERSION=1.8.3
+  - DJANGO_VERSION=1.8.13
   - DJANGO_VERSION=1.9.7
+  - DJANGO_VERSION=1.10rc1
 
 # Tell it the things it will need to install when it boots
 install:
   # This is a dependency of our Django test script
-  - pip install argparse
-  - pip install coverage
-  - pip install coveralls
-  - pip install mock
+  - pip install coverage coveralls mock
 
   # Install the dependencies the app itself has
   - pip install pycrypto>=2.0.1
+
   # Install whatever version of Django that's listed above
   # Travis is currently working on
   - pip install -q Django==$DJANGO_VERSION
 
 # Tell Travis how to run the test script itself
 script:
-  coverage run --source=unfriendly quicktest.py unfriendly
+  coverage run --source=unfriendly runtests.py
 
 after_success:
   coveralls
-
-matrix:
-  exclude:
-    - python: "2.6"
-      env: DJANGO_VERSION=1.7.9
-    - python: "2.6"
-      env: DJANGO_VERSION=1.8.3
-    - python: "2.6"
-      env: DJANGO_VERSION=1.9.7
-
