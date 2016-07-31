@@ -3,3 +3,6 @@
 *.egg-info
 dist
 .coverage
+.venv
+.idea
+
