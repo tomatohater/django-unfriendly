@@ -74,8 +74,9 @@ def decrypt(ciphertext, secret, inital_vector, checksum=True, lazy=True):
     secret = _lazysecret(secret) if lazy else secret
     encobj = AES.new(secret, AES.MODE_CFB, inital_vector)
     try:
-        plaintext = encobj.decrypt(base64.urlsafe_b64decode(
-            ciphertext + ('=' * (len(ciphertext) % 4))))
+        padded = ciphertext + ('=' * (len(ciphertext) % 4))
+        decoded = base64.urlsafe_b64decode(str(padded))
+        plaintext = encobj.decrypt(decoded)
     except (TypeError, binascii.Error):
         raise InvalidKeyError("invalid key")
 
