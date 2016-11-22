@@ -9,3 +9,6 @@ upload_test:
 
 upload:
 	python setup.py upload -r pypi
+
+test:
+	python runtests.py
