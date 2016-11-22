@@ -24,5 +24,3 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = ()
 
 ROOT_URLCONF = 'tests.urls'
-
-SECRET_KEY = 'hush' * 8
