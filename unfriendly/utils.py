@@ -2,8 +2,11 @@
 """Various encryption utilites."""
 
 import base64
+import binascii
 import struct
 import zlib
+
+import six
 
 from Crypto.Cipher import AES
 
@@ -23,6 +26,15 @@ def _lazysecret(secret, blocksize=32, padding='}'):
         return secret + (blocksize - len(secret)) * padding
     return secret
 
+def _crc(plaintext):
+    """Generates crc32. Modulo keep the value within int range."""
+    if not isinstance(plaintext, six.binary_type):
+        plaintext = six.b(plaintext)
+    return (zlib.crc32(plaintext) % 2147483647) & 0xffffffff
+
+def _pack_crc(plaintext):
+    """Packs plaintext crc32 as binary data."""
+    return struct.pack('i', _crc(plaintext))
 
 def encrypt(plaintext, secret, inital_vector, checksum=True, lazy=True):
     """Encrypts plaintext with secret
@@ -33,15 +45,21 @@ def encrypt(plaintext, secret, inital_vector, checksum=True, lazy=True):
     checksum       - attach crc32 byte encoded (default: True)
     returns ciphertext
     """
+    if not isinstance(plaintext, six.binary_type):
+        plaintext = six.b(plaintext)
 
     secret = _lazysecret(secret) if lazy else secret
     encobj = AES.new(secret, AES.MODE_CFB, inital_vector)
 
     if checksum:
-        plaintext += base64.urlsafe_b64encode(
-            struct.pack("i", zlib.crc32(plaintext)))
+        packed = _pack_crc(plaintext)
+        plaintext += base64.urlsafe_b64encode(packed)
 
-    return base64.urlsafe_b64encode(encobj.encrypt(plaintext)).replace('=', '')
+    encoded = base64.urlsafe_b64encode(encobj.encrypt(plaintext))
+    if isinstance(plaintext, six.binary_type):
+        encoded = encoded.decode()
+
+    return encoded.replace('=', '')
 
 
 def decrypt(ciphertext, secret, inital_vector, checksum=True, lazy=True):
@@ -53,23 +71,22 @@ def decrypt(ciphertext, secret, inital_vector, checksum=True, lazy=True):
     checksum       - verify crc32 byte encoded checksum (default: True)
     returns plaintext
     """
-
     secret = _lazysecret(secret) if lazy else secret
     encobj = AES.new(secret, AES.MODE_CFB, inital_vector)
     try:
         plaintext = encobj.decrypt(base64.urlsafe_b64decode(
             ciphertext + ('=' * (len(ciphertext) % 4))))
-    except TypeError:
+    except (TypeError, binascii.Error):
         raise InvalidKeyError("invalid key")
 
     if checksum:
         try:
             crc, plaintext = (base64.urlsafe_b64decode(
                 plaintext[-8:]), plaintext[:-8])
-        except TypeError:
+        except (TypeError, binascii.Error):
             raise CheckSumError("checksum mismatch")
 
-        if not crc == struct.pack("i", zlib.crc32(plaintext)):
+        if not crc == _pack_crc(plaintext):
             raise CheckSumError("checksum mismatch")
 
     return plaintext

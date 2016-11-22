@@ -3,6 +3,8 @@
 
 import datetime
 
+import six
+
 from django.http import HttpResponseNotFound
 from django.template.defaultfilters import slugify
 from django.test import TestCase
@@ -23,7 +25,7 @@ class UnfriendlyTests(TestCase):
     urls = 'tests.urls'
 
     def setUp(self):
-        self.juice = 'Lorem ipsum dolor sit amet'
+        self.juice = six.b('Lorem ipsum dolor sit amet')
 
     def test_encryption(self):
         """
@@ -86,6 +88,18 @@ class UnfriendlyTests(TestCase):
         })
         self.assertEqual(view_url, obfuscated_url)
 
+    def test_obfuscate_long_filter(self):
+        """
+        Test the obfuscate filter.
+        """
+        test_url = reverse('unfriendly-test-long')
+        obfuscated_url = obfuscate(test_url)
+        view_url = reverse('unfriendly-deobfuscate', kwargs={
+            'key': encrypt(test_url, settings.UNFRIENDLY_SECRET,
+                           settings.UNFRIENDLY_IV),
+        })
+        self.assertEqual(view_url, obfuscated_url)
+
     def test_obfuscate_filter_with_juice(self):
         """
         Test the obfuscate filter.
@@ -135,6 +149,18 @@ class UnfriendlyTests(TestCase):
         Test the deobfuscate view.
         """
         test_url = reverse('unfriendly-test')
+        obfuscated_url = obfuscate(test_url)
+
+        test_response = self.client.get(test_url)
+        obfuscated_response = self.client.get(obfuscated_url)
+
+        self.assertEqual(test_response.content, obfuscated_response.content)
+
+    def test_deobfuscate_long_view(self):
+        """
+        Test the deobfuscate view.
+        """
+        test_url = reverse('unfriendly-test-long')
         obfuscated_url = obfuscate(test_url)
 
         test_response = self.client.get(test_url)

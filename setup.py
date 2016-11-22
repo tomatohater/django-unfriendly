@@ -26,7 +26,7 @@ setup(
     include_package_data = True,
     package_data = {},
     install_requires = [
-        'pycrypto>=2.0.1',
+        'pycrypto>=2.0.1,six',
     ],
     classifiers = [
         'Environment :: Web Environment',

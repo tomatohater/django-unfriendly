@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 """Django view handlers."""
 
-from urllib import unquote
-from urlparse import urlparse
-
 from django.http import HttpResponseNotFound
+
+try:
+    from urllib.parse import unquote, urlparse
+except ImportError:
+    from urllib import unquote
+    from urlparse import urlparse
 
 try:
     from django.urls import Resolver404, resolve
 except ImportError:
     from django.core.urlresolvers  import Resolver404, resolve
-
 
 from unfriendly import settings
 from unfriendly.utils import CheckSumError, InvalidKeyError, decrypt
@@ -27,6 +29,11 @@ def deobfuscate(request, key, juice=None):
                       settings.UNFRIENDLY_IV,
                       checksum=settings.UNFRIENDLY_ENFORCE_CHECKSUM)
     except (CheckSumError, InvalidKeyError):
+        return HttpResponseNotFound()
+
+    try:
+        url = url.decode('utf-8')
+    except UnicodeDecodeError:
         return HttpResponseNotFound()
 
     url_parts = urlparse(unquote(url))
