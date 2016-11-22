@@ -26,9 +26,10 @@ setup(
     include_package_data = True,
     package_data = {},
     install_requires = [
-        'pycrypto>=2.0.1,six',
+        'pycrypto>=2.0.1', 'six',
     ],
     classifiers = [
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
@@ -36,6 +37,10 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ]
