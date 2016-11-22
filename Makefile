@@ -6,10 +6,10 @@ build:
 	python setup.py sdist
 
 upload_test:
-	python setup.py upload -r pypitest
+	python setup.py sdist upload -r pypitest
 
 upload:
-	python setup.py upload -r pypi
+	python setup.py sdist upload -r pypi
 
 test:
 	python runtests.py
