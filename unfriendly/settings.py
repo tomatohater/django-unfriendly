@@ -15,8 +15,6 @@ UNFRIENDLY_ENABLE_FILTER = getattr(settings, 'UNFRIENDLY_ENABLE_FILTER', True)
 #
 UNFRIENDLY_SECRET = getattr(settings, 'UNFRIENDLY_SECRET',
                             getattr(settings, 'SECRET_KEY')[0:32])
-if not UNFRIENDLY_SECRET:
-    UNFRIENDLY_SECRET = 'hush' * 8
 
 #
 # UNFRIENDLY_IV is the initial vector required by AES cipher
@@ -24,9 +22,6 @@ if not UNFRIENDLY_SECRET:
 #
 UNFRIENDLY_IV = getattr(settings, 'UNFRIENDLY_IV',
                         getattr(settings, 'SECRET_KEY')[0:16])
-if not UNFRIENDLY_IV:
-    UNFRIENDLY_IV = 'hush' * 4
-
 #
 # UNFRIENDLY_ENFORCE_CHECKSUM whether or not the decrypted data is validated
 # against a crc checksum to detect tampering
